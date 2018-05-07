@@ -49,8 +49,10 @@ def apilado(pilaMemoria,tran):
     pos=11
     while tran[pos]!=")":
         if tran[pos]=="E":
-            r=pilaMemoria.desapilar()
-            return
+            if pilaMemoria.es_vacia():
+                return
+            else :
+                r=pilaMemoria.desapilar()
         else:
             pilaMemoria.apilar(tran[pos])
         pos = pos + 1
