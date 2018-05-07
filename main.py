@@ -46,31 +46,45 @@ def buscar_transicion(transiciones,estadoActual,sim,variableStack):
         pos = pos + 1
     return ""
 def apilado(pilaMemoria,tran):
-    pos=tran[11]
+    pos=11
     while tran[pos]!=")":
-        if tran[pos]="E":
+        if tran[pos]=="E":
             r=pilaMemoria.desapilar()
+            return
         else:
             pilaMemoria.apilar(tran[pos])
         pos = pos + 1
 
-def apd_stack_vacio(transiciones,estadoInicial,colaEntrada,pilaMemoria):
+def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria):
     estadoActual= estadoInicial 
     sim = colaEntrada.desencolar()
     while(sim!=""):
         variableStack=pilaMemoria.desapilar()
         tran=buscar_transicion(transiciones,estadoActual,sim,variableStack)
         if(tran!=""):
-            estadoActual=tran[1]
+            estadoActual=tran[9]
             apilado(pilaMemoria,tran)
         else:
             print("no existe la transicion ")
             return           
-        sim = colaEntrada.desencolar()
+        if(colaEntrada.es_vacia()):
+            return estadoActual
+        else:
+            sim = colaEntrada.desencolar()
+
+def apd_stack_vacio(transiciones,estadoInicial,colaEntrada,pilaMemoria):
+    a=calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria)
     if(pilaMemoria.es_vacia()):
-        print("esta terrible weno el apd SI SI SI")
+        return True
     else:
-        print("NO NO NO")
+        return False
+
+def apd_estado_final(transiciones,estadoInicial,colaEntrada,estado_final,pilaMemoria):
+    final=calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria)
+    if(final==estado_final):
+        return True
+    else:
+        return False
 def crearPalabra(palabraEntrada,colaEntrada):
     pos=0
     while pos<len(palabraEntrada):
@@ -87,18 +101,16 @@ def main():
         palabraEntrada = validaEntrada("Ingrese la palabra de entrada : ")
         crearPalabra(palabraEntrada,colaEntrada)
         if(por_stack_vacio() ):
-            """
             if(apd_stack_vacio(transiciones,estadoInicial,colaEntrada,pilaMemoria)):
                 print("La palabra es aceptado por el APD por stack vacio")
             else:
-                print("no se llama ") 
-            """        
+                print("La palabra NO es aceptado por el APD por stack vacio ") 
+        
         else:
             estadoFinal=validaEntrada("Ingrese el estado Final : ")
-            """
-            if(apd_estado_final(transiciones,estadoInicial,colaEntrada,estado_final,pilaMemoria)):
-                print("La palabra es aceptado por el APD por estado_final")
+            if(apd_estado_final(transiciones,estadoInicial,colaEntrada,estadoFinal,pilaMemoria)):
+                print("La palabra es aceptado por el APD por estado final")
             else:
-                print("no se llama ")
-            """
+                print("La palabra NO es aceptada por el APD por estado final ")
+            
 main()
