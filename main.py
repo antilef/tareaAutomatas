@@ -4,7 +4,7 @@ from DataStruct.Queue import Queue
 transiciones = []
 pilaMemoria = Stack()
 estadoInicial = ""
-palabraEntra   da = ""
+palabraEntrada = ""
 colaEntrada = Queue()
 estadoFinal =        ""
 def transicion_esta_correcta(tran):
@@ -12,16 +12,16 @@ def transicion_esta_correcta(tran):
     return tran[0]!='(' or tran[2]!=',' or tran[4]!=',' or tran[6]!=')' or tran[7]!='=' or tran[8]!='(' or tran[10]!=',' or tran[len(tran)-1]!=')'
         
 def pide_transiciones(transiciones):
-    tran=str(input("Ingrese las transiciones (presiones ENTER para terminar):"))
+    tran=input("Ingrese las transiciones (presiones ENTER para terminar):")
     tran=tran.replace(' ','')
     while tran!="":
         while(transicion_esta_correcta(tran)):
-            tran=str(input("Error..Ingrese las transiciones otra vez:"))
+            tran=input("malloc...Ingrese las transiciones otra vez:")
             tran=tran.replace(' ','')
         transiciones.append(tran)
-        tran=str(input("Ingrese las transiciones (presiones ENTER para terminar):"))
+        tran=input("Ingrese las transiciones (presiones ENTER para terminar):")
         tran=tran.replace(' ','')
-
+        
 
 def por_stack_vacio():
     resp=str(input("El automata acepta por stack vacio(1) o estado final(2)"))
@@ -42,27 +42,32 @@ def buscar_transicion(transiciones,estadoActual,sim,variableStack):
     pos=0
     while pos<len(transiciones):
         if transiciones[pos][1]==estadoActual and transiciones[pos][3]==sim and transiciones[pos][5]==variableStack :
+            
             return transiciones[pos]
         pos = pos + 1
     return ""
 def apilado(pilaMemoria,tran):
-    pos=len(tran)-2
-    while tran[pos]!=",":
-        if tran[pos]=="E":
-            if pilaMemoria.es_vacia():
-                return
-            else :
-                r=pilaMemoria.desapilar()
-        else:
-            pilaMemoria.apilar(tran[pos])
-        pos = pos - 1
+    pos=11
+    print(tran)
+    while pos<len(tran)-2:
+        print("se Agrega símbolo ",tran[pos]," en posición:",pos)
+        pilaMemoria.apilar(tran[pos])
+        print("Pila de memoria:")
+        for x in pilaMemoria.items:
+            print(x)
+        pos = pos + 1
+
 
 def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria):
-    estadoActual= estadoInicial 
+    estadoActual= estadoInicial
     while(colaEntrada.es_vacia()):
+        print("Estado Actual: ",estadoActual)
         sim = colaEntrada.desencolar()
+        print("simbolo a leer: ",sim)
         if pilaMemoria.es_vacia():
+            print("pila vacia")
             return estadoActual
+        
         variableStack=pilaMemoria.desapilar()
         tran=buscar_transicion(transiciones,estadoActual,sim,variableStack)
         if(tran!=""):
@@ -70,7 +75,7 @@ def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria):
             apilado(pilaMemoria,tran)
         else:
             print("no existe la transicion ")
-            return           
+            return      
 
 def apd_stack_vacio(transiciones,estadoInicial,colaEntrada,pilaMemoria):
     a=calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria)
@@ -93,9 +98,12 @@ def crearPalabra(palabraEntrada,colaEntrada):
 def main():
     print("Bienvenido a nuesta super tarea salvaje(la epsilon=E ) #MuerteAlHeinz")
     pilaMemoria.apilar("R")
+    print("Pila de memoria:")
+    for x in pilaMemoria.items:
+        print(x)
     pide_transiciones(transiciones)
     if transiciones==[]:
-        print("Error")
+        print("Error 404, no hay transiciones")
     else:
         estadoInicial = validaEntrada("Ingrese el estado Inicial : ")
         palabraEntrada = validaEntrada("Ingrese la palabra de entrada : ")
@@ -107,6 +115,7 @@ def main():
                 print("La palabra NO es aceptado por el APD por stack vacio ") 
         
         else:
+            pilaMemoria.apilar("R")
             estadoFinal=validaEntrada("Ingrese el estado Final : ")
             if(apd_estado_final(transiciones,estadoInicial,colaEntrada,estadoFinal,pilaMemoria)):
                 print("La palabra es aceptado por el APD por estado final")

@@ -10,7 +10,7 @@ class Queue:
         except:
             raise ValueError("La cola esta vacia ")
     def es_vacia(self):
-        return self.items==[]
+        return self.items!=[]
     def imprime(self):
         for i in self.items:
             print(i)
