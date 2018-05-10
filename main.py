@@ -4,10 +4,10 @@ from DataStruct.Queue import Queue
 transiciones = []
 pilaMemoria = Stack()
 estadoInicial = ""
-palabraEntrada = ""
+palabraEntra   da = ""
 colaEntrada = Queue()
-estadoFinal = ""
-def transicion_Mala(tran):
+estadoFinal =        ""
+def transicion_esta_correcta(tran):
     ##hay que modificar esto
     return tran[0]!='(' or tran[2]!=',' or tran[4]!=',' or tran[6]!=')' or tran[7]!='=' or tran[8]!='(' or tran[10]!=',' or tran[len(tran)-1]!=')'
         
@@ -15,7 +15,7 @@ def pide_transiciones(transiciones):
     tran=str(input("Ingrese las transiciones (presiones ENTER para terminar):"))
     tran=tran.replace(' ','')
     while tran!="":
-        while(transicion_Mala(tran)):
+        while(transicion_esta_correcta(tran)):
             tran=str(input("Error..Ingrese las transiciones otra vez:"))
             tran=tran.replace(' ','')
         transiciones.append(tran)
@@ -59,8 +59,10 @@ def apilado(pilaMemoria,tran):
 
 def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria):
     estadoActual= estadoInicial 
-    sim = colaEntrada.desencolar()
-    while(sim!=""):
+    while(colaEntrada.es_vacia()):
+        sim = colaEntrada.desencolar()
+        if pilaMemoria.es_vacia():
+            return estadoActual
         variableStack=pilaMemoria.desapilar()
         tran=buscar_transicion(transiciones,estadoActual,sim,variableStack)
         if(tran!=""):
@@ -69,10 +71,6 @@ def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria):
         else:
             print("no existe la transicion ")
             return           
-        if(colaEntrada.es_vacia()):
-            return estadoActual
-        else:
-            sim = colaEntrada.desencolar()
 
 def apd_stack_vacio(transiciones,estadoInicial,colaEntrada,pilaMemoria):
     a=calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria)
