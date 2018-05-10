@@ -46,8 +46,8 @@ def buscar_transicion(transiciones,estadoActual,sim,variableStack):
         pos = pos + 1
     return ""
 def apilado(pilaMemoria,tran):
-    pos=11
-    while tran[pos]!=")":
+    pos=len(tran)-2
+    while tran[pos]!=",":
         if tran[pos]=="E":
             if pilaMemoria.es_vacia():
                 return
