@@ -59,19 +59,32 @@ def apilado(pilaMemoria,tran):
 
 
 def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria):
+    iteracion = 1
     estadoActual= estadoInicial 
-    while(colaEntrada.es_vacia()):
+    while(not colaEntrada.es_vacia()):
+        print("****************")
         sim = colaEntrada.desencolar()
-        if pilaMemoria.es_vacia():
-            return estadoActual
+        print("pila: ")
+        for x in pilaMemoria.items :
+            print(x)
         variableStack=pilaMemoria.desapilar()
+        print(" estadoActual: ",estadoActual," sim: ",sim," variableStack: ",variableStack)
         tran=buscar_transicion(transiciones,estadoActual,sim,variableStack)
+        print(tran)
         if(tran!=""):
             estadoActual=tran[9]
             apilado(pilaMemoria,tran)
         else:
             print("no existe la transicion ")
-            return           
+            return
+        print("termino la iteracion: ",iteracion)
+        print("*****************")
+        iteracion=iteracion+1
+        
+    if pilaMemoria.items[0]== "R" and colaEntrada.es_vacia():
+        pilaMemoria.desapilar()
+        vacia = True
+    return vacia         
 
 
 def apd_stack_vacio(transiciones,estadoInicial,colaEntrada,pilaMemoria):
