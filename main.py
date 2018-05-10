@@ -55,7 +55,7 @@ def apilado(pilaMemoria,tran):
                 r=pilaMemoria.desapilar()
         else:
             pilaMemoria.apilar(tran[pos])
-        pos = pos + 1
+        pos = pos - 1
 
 def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria):
     estadoActual= estadoInicial 
