@@ -10,8 +10,6 @@ estadoFinal =        ""
 def transicion_esta_correcta(tran):
     ##hay que modificar esto
     return tran[0]!='(' or tran[2]!=',' or tran[4]!=',' or tran[6]!=')' or tran[7]!='=' or tran[8]!='(' or tran[10]!=',' or tran[len(tran)-1]!=')'
-
-
         
 def pide_transiciones(transiciones):
     tran=input("Ingrese las transiciones (presiones ENTER para terminar):")
