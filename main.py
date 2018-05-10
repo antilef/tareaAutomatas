@@ -57,6 +57,7 @@ def apilado(pilaMemoria,tran):
             pilaMemoria.apilar(tran[pos])
         pos = pos + 1
 
+
 def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria):
     estadoActual= estadoInicial 
     while(colaEntrada.es_vacia()):
@@ -71,6 +72,7 @@ def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria):
         else:
             print("no existe la transicion ")
             return           
+
 
 def apd_stack_vacio(transiciones,estadoInicial,colaEntrada,pilaMemoria):
     a=calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria)
