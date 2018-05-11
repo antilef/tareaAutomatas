@@ -67,7 +67,7 @@ def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria,acept
     estadoActual= estadoInicial
     print("Cola entrada:")
     for x in colaEntrada.items:
-        print(x)   
+        print(x)
     while(not colaEntrada.es_vacia()):
         print("****************")
         sim = colaEntrada.desencolar()
