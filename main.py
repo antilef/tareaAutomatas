@@ -22,7 +22,6 @@ def pide_transiciones(transiciones):
         tran=input("Ingrese las transiciones (presiones ENTER para terminar):")
         tran=tran.replace(' ','')
         
-
 def por_stack_vacio():
     resp=str(input("El automata acepta por stack vacio(1) o estado final(2)"))
     resp=resp.replace(' ','')
@@ -57,8 +56,6 @@ def apilado(pilaMemoria,tran):
             print(x)
         pos = pos + 1
 
-
-
 def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria):
     estadoActual= estadoInicial
     while(colaEntrada.es_vacia()):
@@ -77,7 +74,6 @@ def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria):
         else:
             print("no existe la transicion ")
             return      
-
 
 def apd_stack_vacio(transiciones,estadoInicial,colaEntrada,pilaMemoria):
     a=calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria)
