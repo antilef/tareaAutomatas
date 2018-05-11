@@ -47,43 +47,58 @@ def buscar_transicion(transiciones,estadoActual,sim,variableStack):
     return ""
 def apilado(pilaMemoria,tran):
     pos=11
+    print("Pila de memoria: ")
+    for x in pilaMemoria.items:
+        print (x)
     print(tran)
+    if(tran[11]!="E"):
+        pilaMemoria.apilar(tran[5])
     while pos<len(tran)-2:
         print("se Agrega símbolo ",tran[pos]," en posición:",pos)
         pilaMemoria.apilar(tran[pos])
         print("Pila de memoria:")
-        for x in pilaMemoria.items:
-            print(x)
+        if(not pilaMemoria.es_vacia()):
+            for x in pilaMemoria.items:
+                print (x)
         pos = pos + 1
 
-def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria):
+def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria,acept):
+    iteracion = 1
     estadoActual= estadoInicial
-    while(colaEntrada.es_vacia()):
-        print("Estado Actual: ",estadoActual)
+    print("Cola entrada:")
+    for x in colaEntrada.items:
+        print(x)   
+    while(not colaEntrada.es_vacia()):
+        print("****************")
         sim = colaEntrada.desencolar()
-        print("simbolo a leer: ",sim)
-        if pilaMemoria.es_vacia():
-            print("pila vacia")
-            return estadoActual
-        
+        print("pila: ")
+        for x in pilaMemoria.items :
+            print(x)
         variableStack=pilaMemoria.desapilar()
+        print(" estadoActual: ",estadoActual," sim: ",sim," variableStack: ",variableStack)
         tran=buscar_transicion(transiciones,estadoActual,sim,variableStack)
+        print(tran)
         if(tran!=""):
             estadoActual=tran[9]
             apilado(pilaMemoria,tran)
         else:
             print("no existe la transicion ")
-            return      
+            return
+        print("termino la iteracion: ",iteracion)
+        print("*****************")
+        iteracion=iteracion+1
+    print("Estado Final: ",estadoActual)
+    return estadoActual
 
 def apd_stack_vacio(transiciones,estadoInicial,colaEntrada,pilaMemoria):
-    a=calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria)
+    calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria,"pilaVacia")
     if(pilaMemoria.es_vacia()):
         return True
     else:
         return False
 
 def apd_estado_final(transiciones,estadoInicial,colaEntrada,estado_final,pilaMemoria):
-    final=calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria)
+    final=calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria,"estadoFinal")
     if(final==estado_final):
         return True
     else:
@@ -113,7 +128,11 @@ def main():
                 print("La palabra NO es aceptado por el APD por stack vacio ") 
         
         else:
-            pilaMemoria.apilar("R")
+            #Esto es para que distinguir el final de la palabra y para efectos de que el autómata
+            #sepa que la palabra ha terminado
+            colaEntrada.encolar("E")
+            for x in pilaMemoria.items:
+                print(x)
             estadoFinal=validaEntrada("Ingrese el estado Final : ")
             if(apd_estado_final(transiciones,estadoInicial,colaEntrada,estadoFinal,pilaMemoria)):
                 print("La palabra es aceptado por el APD por estado final")
