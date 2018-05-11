@@ -129,6 +129,8 @@ def main():
                 print("La palabra NO es aceptado por el APD por stack vacio ") 
         
         else:
+            #Esto es para que distinguir el final de la palabra y para efectos de que el autómata
+            #sepa que la palabra ha terminado
             colaEntrada.encolar("E")
             for x in pilaMemoria.items:
                 print(x)
