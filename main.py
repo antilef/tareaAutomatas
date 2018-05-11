@@ -22,7 +22,6 @@ def pide_transiciones(transiciones):
         tran=input("Ingrese las transiciones (presiones ENTER para terminar):")
         tran=tran.replace(' ','')
         
-
 def por_stack_vacio():
     resp=str(input("El automata acepta por stack vacio(1) o estado final(2)"))
     resp=resp.replace(' ','')
@@ -62,8 +61,6 @@ def apilado(pilaMemoria,tran):
             for x in pilaMemoria.items:
                 print (x)
         pos = pos + 1
-
-
 
 def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria,acept):
     iteracion = 1
