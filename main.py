@@ -15,12 +15,21 @@ def pide_transiciones(transiciones):
     tran=input("Ingrese las transiciones (presiones ENTER para terminar):")
     tran=tran.replace(' ','')
     while tran!="":
-        while(transicion_esta_correcta(tran)):
-            tran=input("malloc...Ingrese las transiciones otra vez:")
+        while(transicion_esta_correcta(tran) and tran!="exit"):
+            tran=input("Error...Ingrese las transiciones otra vez:")
             tran=tran.replace(' ','')
+        if (tran=="exit"):
+            while(tran!="S" and tran!="s" and tran!="N" and tran!="n"):
+                tran=input("Ha elegido salir de el programa, ¿Esta usted seguro de salir? s(si) - n(no)")
+            if(tran=="S" or tran=="s"):
+                return True
         transiciones.append(tran)
         tran=input("Ingrese las transiciones (presiones ENTER para terminar):")
         tran=tran.replace(' ','')
+    if transiciones==[]:
+        return False
+    else:
+        return True
         
 def por_stack_vacio():
     resp=str(input("El automata acepta por stack vacio(1) o estado final(2)"))
@@ -128,15 +137,29 @@ def crearPalabra(palabraEntrada,colaEntrada):
         colaEntrada.encolar(palabraEntrada[pos])
         pos = pos + 1
 def main():
+    #PRESENTACIÓN:
     print("Bienvenido a nuesta super tarea salvaje(la epsilon=E ) #MuerteAlHeinz")
-    pilaMemoria.apilar("R")
-    print("Pila de memoria:")
-    for x in pilaMemoria.items:
-        print(x)
-    pide_transiciones(transiciones)
-    if transiciones==[]:
-        print("Error 404, no hay transiciones")
-    else:
+    print("Al momento de escribir las transiciones, se puede escribir el comando 'exit' (sin comillas) para salir del programa")
+    print("Las transiciones deben ingresarse de la forma:")
+    print("          (1,a,R)=('2','RA')")
+    print("Donde cada elemento es:")
+    print("   1:Estado actual (los nodos solo se pueden representar por números)")
+    print("   a:El símbolo leido en la palabra (puede que ser cualquier símbolo)")
+    print("   R:Símbolo en la tapa del stack al leer la símnolo de la palabra")
+    print("   2:estado final al completarse la transición")
+    print("   RA: 'A' Se apilará en la tapa del stack")
+    print("No se puede usar la letra 'E' ya que está reservada por el programa(si se el programa no funcionará de manera correcta)")
+    print("Por último, el símbolo inicial del stack de memoria siempre es :'R'")
+    print()
+    print()
+    #Se inica el código
+    salir=False
+    salir=pide_transiciones(transiciones)
+    while(transiciones==[] and salir==False):
+        print("Error, no se han ingresado transiciones, por favor ingrese transiciones o ")
+        salir=pide_transiciones(transiciones)
+    while(salir==False):
+        pilaMemoria.apilar("R")
         estadoInicial = validaEntrada("Ingrese el estado Inicial : ")
         palabraEntrada = validaEntrada("Ingrese la palabra de entrada : ")
         crearPalabra(palabraEntrada,colaEntrada)
@@ -155,5 +178,14 @@ def main():
                 print("La palabra es aceptado por el APD por estado final")
             else:
                 print("La palabra NO es aceptada por el APD por estado final ")
+        pregunta=str(input("Quiere ingresar otra palabra para este autómata? S(si) - N(no:El programa finalizará)"))
+        if pregunta=="N" or pregunta=="n":
+            salir=True
+        while (not pilaMemoria.es_vacia()):
+            pilaMemoria.desapilar()
+        while(not colaEntrada.es_vacia()):
+            colaEntrada.desencolar()
+    print("Que tenga buen día! :3")
+    input()
             
 main()
