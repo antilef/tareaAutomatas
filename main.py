@@ -7,12 +7,13 @@ estadoInicial = ""
 palabraEntrada = ""
 colaEntrada = Queue()
 estadoFinal =        ""
+
 def transicion_esta_correcta(tran):
     ##hay que modificar esto
     return tran[0]!='(' or tran[2]!=',' or tran[4]!=',' or tran[6]!=')' or tran[7]!='=' or tran[8]!='(' or tran[10]!=',' or tran[len(tran)-1]!=')'
         
 def pide_transiciones(transiciones):
-    tran=input("Ingrese las transiciones (presiones ENTER para terminar):")
+    tran=input("Ingrese las transiciones (presiones ENTER para terminar,exit para terminar la ejecucion del programa):")
     tran=tran.replace(' ','')
     while tran!="":
         while(transicion_esta_correcta(tran) and tran!="exit"):
@@ -27,15 +28,15 @@ def pide_transiciones(transiciones):
         tran=input("Ingrese las transiciones (presiones ENTER para terminar):")
         tran=tran.replace(' ','')
     if transiciones==[]:
-        return False
-    else:
         return True
+    else:
+        return False
         
 def por_stack_vacio():
-    resp=str(input("El automata acepta por stack vacio(1) o estado final(2)"))
+    resp=str(input("El automata acepta por stack vacio(1) o estado final(2)?:"))
     resp=resp.replace(' ','')
     while resp not in ("1","2"):
-        resp=str(input("Error...El automata acepta por stack vacio(1) o estado final(2)"))
+        resp=str(input("Error...El automata acepta por stack vacio(1) o estado final(2)?:"))
         resp=resp.replace(' ','')
     return resp=="1"
 
@@ -46,6 +47,7 @@ def validaEntrada(mensaje):
         estado=str(input("Error..."+mensaje))
         estado=estado.replace(' ','')
     return estado
+
 def buscar_transicion(transiciones,estadoActual,sim,variableStack):
     pos=0
     while pos<len(transiciones):
@@ -53,6 +55,7 @@ def buscar_transicion(transiciones,estadoActual,sim,variableStack):
             return transiciones[pos]
         pos = pos + 1
     return ""
+
 def apilado(pilaMemoria,tran):
     pos=11
     print("Transición detectada: ")
@@ -131,24 +134,28 @@ def apd_estado_final(transiciones,estadoInicial,colaEntrada,estado_final,pilaMem
         return True
     else:
         return False
+
 def crearPalabra(palabraEntrada,colaEntrada):
     pos=0
     while pos<len(palabraEntrada):
         colaEntrada.encolar(palabraEntrada[pos])
         pos = pos + 1
+
 def main():
     #PRESENTACIÓN:
-    print("Bienvenido a nuesta super tarea salvaje(la epsilon=E ) #MuerteAlHeinz")
+    print("Bienvenido a nuesta super tarea salvaje(la epsilon=E )")
     print("Al momento de escribir las transiciones, se puede escribir el comando 'exit' (sin comillas) para salir del programa")
     print("Las transiciones deben ingresarse de la forma:")
     print("          (1,a,R)=('2','RA')")
+    print("o tambien (q,b,R)=(w,AAR)   ")
+    print()
     print("Donde cada elemento es:")
-    print("   1:Estado actual (los nodos solo se pueden representar por números)")
-    print("   a:El símbolo leido en la palabra (puede que ser cualquier símbolo)")
-    print("   R:Símbolo en la tapa del stack al leer la símnolo de la palabra")
-    print("   2:estado final al completarse la transición")
-    print("   RA: 'A' Se apilará en la tapa del stack")
-    print("No se puede usar la letra 'E' ya que está reservada por el programa(si se el programa no funcionará de manera correcta)")
+    print("   1(q) :Estado actual (los nodos solo se pueden representar por números)")
+    print("   a(b) :El símbolo leido en la palabra (puede que ser cualquier símbolo)")
+    print("   R :Símbolo en la tapa del stack al leer la símnolo de la palabra")
+    print("   2(w) :estado final al completarse la transición")
+    print("   RA(AAR) : 'A' Se apilará en la tapa del stack")
+    print("No se puede usar la letra 'E' como simbolo de palabra ni del Stack, ya que está reservada por el programa(si se el programa no funcionará de manera correcta)")
     print("Por último, el símbolo inicial del stack de memoria siempre es :'R'")
     print()
     print()
@@ -178,14 +185,19 @@ def main():
                 print("La palabra es aceptado por el APD por estado final")
             else:
                 print("La palabra NO es aceptada por el APD por estado final ")
+        
         pregunta=str(input("Quiere ingresar otra palabra para este autómata? S(si) - N(no:El programa finalizará)"))
+        pregunta=pregunta.replace(' ','')
+        while pregunta not in ("S","N","n"):
+            pregunta=str(input("Error...Debe ingresar 'S' o 'N' : "))
+            pregunta=pregunta.replace(' ','')
         if pregunta=="N" or pregunta=="n":
             salir=True
         while (not pilaMemoria.es_vacia()):
             pilaMemoria.desapilar()
         while(not colaEntrada.es_vacia()):
             colaEntrada.desencolar()
-    print("Que tenga buen día! :3")
+    print("Fin de la Ejecucion.....Que tenga buen día! :3")
     input()
             
 main()
