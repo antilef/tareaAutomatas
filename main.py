@@ -13,7 +13,7 @@ def transicion_esta_correcta(tran):
     return tran[0]!='(' or tran[2]!=',' or tran[4]!=',' or tran[6]!=')' or tran[7]!='=' or tran[8]!='(' or tran[10]!=',' or tran[len(tran)-1]!=')'
         
 def pide_transiciones(transiciones):
-    tran=input("Ingrese las transiciones (presiones ENTER para terminar,exit para terminar la ejecucion del programa):")
+    tran=input("Ingrese transicion (presiones ENTER para terminar,exit para terminar la ejecucion del programa):")
     tran=tran.replace(' ','')
     while tran!="":
         while(transicion_esta_correcta(tran)):
@@ -22,10 +22,10 @@ def pide_transiciones(transiciones):
                     tran=input("Ha elegido salir de el programa, ¿Esta usted seguro de salir? s(si) - n(no)")
                 if(tran=="S" or tran=="s"):
                     return True
-            tran=input("Error...Ingrese las transiciones otra vez (o 'exit' para salir):")
+            tran=input("Error...Ingrese transicion otra vez (o 'exit' para salir):")
             tran=tran.replace(' ','')
         transiciones.append(tran)
-        tran=input("Ingrese las transiciones (presiones ENTER para terminar,exit para terminar la ejecucion del programa):")
+        tran=input("Ingrese transicion (presiones ENTER para terminar,exit para terminar la ejecucion del programa):")
         tran=tran.replace(' ','')
     return False
         
@@ -133,7 +133,7 @@ def main():
     print("o tambien (q,b,R)=(w,AAR)   ")
     print()
     print("Donde cada elemento es:")
-    print("   1(ó q) :Estado actual (los nodos solo se pueden representar por un solo símbolo(letra, o número de un dígito por ejemplo: 'a', '1', 'q',etc))")
+    print("   1(ó q) :Estado actual (los estados solo se pueden representar por un solo símbolo(letra, o número de un dígito por ejemplo: 'a', '1', 'q',etc))")
     print("   a(ó b) :El símbolo leido en la palabra (puede que ser cualquier símbolo)")
     print("   R :Símbolo en la tapa del stack al leer la símnolo de la palabra")
     print("   2(ó w) :estado final al completarse la transición")
