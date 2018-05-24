@@ -6,7 +6,7 @@ pilaMemoria = Stack()
 estadoInicial = ""
 palabraEntrada = ""
 colaEntrada = Queue()
-estadoFinal =        ""
+estadosFinales =[]
 
 def transicion_esta_correcta(tran):
     ##hay que modificar esto
@@ -27,10 +27,7 @@ def pide_transiciones(transiciones):
         transiciones.append(tran)
         tran=input("Ingrese las transiciones (presiones ENTER para terminar):")
         tran=tran.replace(' ','')
-    if transiciones==[]:
-        return True
-    else:
-        return False
+    return False
         
 def por_stack_vacio():
     resp=str(input("El automata acepta por stack vacio(1) o estado final(2)?:"))
@@ -40,10 +37,10 @@ def por_stack_vacio():
         resp=resp.replace(' ','')
     return resp=="1"
 
-def validaEntrada(mensaje):
+def validaEntrada(mensaje,motivo):
     estado=str(input(mensaje))
     estado=estado.replace(' ','')
-    while estado=="":
+    while (estado=="" and motivo!="estadofinal"):
         estado=str(input("Error..."+mensaje))
         estado=estado.replace(' ','')
     return estado
@@ -130,7 +127,13 @@ def apd_estado_final(transiciones,estadoInicial,colaEntrada,estado_final,pilaMem
     final=calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria,"estadoFinal")
     #Agregada nueva condición: si final =-1, significa que no existe una transición,
     #Y por lo tanto: que la palabra no es aceptada por el APD
-    if(final==estado_final and final!=-1):
+    es_final=False
+    x=0
+    while(final!=estadosFinales[x] and x<len(estadosFinales)-1):
+        x=x+1
+    if(x!=len(estadosFinales)):
+        es_final=True
+    if(es_final and final!=-1):
         return True
     else:
         return False
@@ -146,15 +149,15 @@ def main():
     print("Bienvenido a nuesta super tarea salvaje(la epsilon=E )")
     print("Al momento de escribir las transiciones, se puede escribir el comando 'exit' (sin comillas) para salir del programa")
     print("Las transiciones deben ingresarse de la forma:")
-    print("          (1,a,R)=('2','RA')")
+    print("          (1,a,R)=(2,AR)")
     print("o tambien (q,b,R)=(w,AAR)   ")
     print()
     print("Donde cada elemento es:")
-    print("   1(q) :Estado actual (los nodos solo se pueden representar por números)")
-    print("   a(b) :El símbolo leido en la palabra (puede que ser cualquier símbolo)")
+    print("   1(ó q) :Estado actual (los nodos solo se pueden representar por un solo símbolo(letra, o número de un dígito por ejemplo: 'a', '1', 'q',etc))")
+    print("   a(ó b) :El símbolo leido en la palabra (puede que ser cualquier símbolo)")
     print("   R :Símbolo en la tapa del stack al leer la símnolo de la palabra")
-    print("   2(w) :estado final al completarse la transición")
-    print("   RA(AAR) : 'A' Se apilará en la tapa del stack")
+    print("   2(ó w) :estado final al completarse la transición")
+    print("   RA(ó AAR) : 'A' Se apilará en la tapa del stack")
     print("No se puede usar la letra 'E' como simbolo de palabra ni del Stack, ya que está reservada por el programa(si se el programa no funcionará de manera correcta)")
     print("Por último, el símbolo inicial del stack de memoria siempre es :'R'")
     print()
@@ -167,8 +170,8 @@ def main():
         salir=pide_transiciones(transiciones)
     while(salir==False):
         pilaMemoria.apilar("R")
-        estadoInicial = validaEntrada("Ingrese el estado Inicial : ")
-        palabraEntrada = validaEntrada("Ingrese la palabra de entrada : ")
+        estadoInicial = validaEntrada("Ingrese el estado Inicial : ","inicial")
+        palabraEntrada = validaEntrada("Ingrese la palabra de entrada : ","palabra")
         crearPalabra(palabraEntrada,colaEntrada)
         colaEntrada.encolar("E")
         if(por_stack_vacio() ):
@@ -180,7 +183,13 @@ def main():
         else:
             for x in pilaMemoria.items:
                 print(x)
-            estadoFinal=validaEntrada("Ingrese el estado Final : ")
+            estadoFinal=validaEntrada("Ingrese estados Final (presione ENTER para continuar): ","estadofinal")
+            while (estadoFinal!=""):
+                estadoFinal=estadoFinal.replace(' ','')
+                estadosFinales.append(estadoFinal)
+                print(len(estadosFinales))
+                print(estadosFinales)
+                estadoFinal=validaEntrada("Ingrese otro estados Final (presione ENTER para continuar): ","estadofinal")
             if(apd_estado_final(transiciones,estadoInicial,colaEntrada,estadoFinal,pilaMemoria)):
                 print("La palabra es aceptado por el APD por estado final")
             else:
