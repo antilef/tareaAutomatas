@@ -69,7 +69,6 @@ def apilado(pilaMemoria,tran):
     print()
 
 def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria,acept):
-    iteracion = 1
     estadoActual= estadoInicial 
     while(not colaEntrada.es_vacia()):
         sim = colaEntrada.desencolar()
@@ -91,7 +90,6 @@ def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria,acept
         else:
             print("no existe la transicion ")
             return -1
-        iteracion=iteracion+1
     print("Estado al final de la ejecución: ",estadoActual)
     return estadoActual
 
