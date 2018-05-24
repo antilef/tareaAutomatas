@@ -109,7 +109,7 @@ def apd_estado_final(transiciones,estadoInicial,colaEntrada,estado_final,pilaMem
     #Y por lo tanto: que la palabra no es aceptada por el APD
     es_final=False
     x=0
-    while(final!=estadosFinales[x] and x<len(estadosFinales)-1):
+    while(x<len(estadosFinales) and final!=estadosFinales[x]):
         x=x+1
     if(x!=len(estadosFinales)):
         es_final=True
