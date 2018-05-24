@@ -16,16 +16,16 @@ def pide_transiciones(transiciones):
     tran=input("Ingrese las transiciones (presiones ENTER para terminar,exit para terminar la ejecucion del programa):")
     tran=tran.replace(' ','')
     while tran!="":
-        while(transicion_esta_correcta(tran) and tran!="exit"):
-            tran=input("Error...Ingrese las transiciones otra vez:")
+        while(transicion_esta_correcta(tran)):
+            if (tran=="exit"):
+                while(tran!="S" and tran!="s" and tran!="N" and tran!="n"):
+                    tran=input("Ha elegido salir de el programa, ¿Esta usted seguro de salir? s(si) - n(no)")
+                if(tran=="S" or tran=="s"):
+                    return True
+            tran=input("Error...Ingrese las transiciones otra vez (o 'exit' para salir):")
             tran=tran.replace(' ','')
-        if (tran=="exit"):
-            while(tran!="S" and tran!="s" and tran!="N" and tran!="n"):
-                tran=input("Ha elegido salir de el programa, ¿Esta usted seguro de salir? s(si) - n(no)")
-            if(tran=="S" or tran=="s"):
-                return True
         transiciones.append(tran)
-        tran=input("Ingrese las transiciones (presiones ENTER para terminar):")
+        tran=input("Ingrese las transiciones (presiones ENTER para terminar,exit para terminar la ejecucion del programa):")
         tran=tran.replace(' ','')
     return False
         
@@ -55,20 +55,14 @@ def buscar_transicion(transiciones,estadoActual,sim,variableStack):
 
 def apilado(pilaMemoria,tran):
     pos=11
-    print("Transición detectada: ")
-    print(tran)
     if(tran[11]!="E"):
         pilaMemoria.apilar(tran[5])
     while pos<len(tran)-2:
-        print("se Agrega símbolo ",tran[pos]," en posición:",pos)
         pilaMemoria.apilar(tran[pos])
-        print("Pila de memoria:")
-        if(not pilaMemoria.es_vacia()):
-            for x in pilaMemoria.items:
-                print (x)
         pos = pos + 1
     #Agrego la condición de que si el stack está vacío: entonces "E" (epsilon) es situado en la tapa para representar que está vacío
     #Esto es necesario para cierto tipo de transiciones, en donde se pregunta si el stack está vacío
+    #Es posible que se acumule más de una 'E' en la tapa del stack en algunos autómatas, pero esto no afecta al resultado final
     if(pilaMemoria.es_vacia()):
         pilaMemoria.apilar("E")
         print("PILA VACÍA")
@@ -78,19 +72,9 @@ def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria,acept
     iteracion = 1
     estadoActual= estadoInicial 
     while(not colaEntrada.es_vacia()):
-        print("****************")
-        print("Cola entrada:")
-        for x in colaEntrada.items:
-            print(x,end=" ")  
         sim = colaEntrada.desencolar()
-        #Si la pila esta vacía, quiere decir que no se puede continuar
-        print("pila: ")
-        for x in pilaMemoria.items :
-            print(x)
         variableStack=pilaMemoria.desapilar()
-        print(" estadoActual: ",estadoActual," sim: ",sim," variableStack: ",variableStack)
         tran=buscar_transicion(transiciones,estadoActual,sim,variableStack)
-        print(tran)
         #Agregada nueva condición: si el símbolo leido es E, quiere decir que llegamos al final de la palabra
         #Por lo tanto, es posible que no hayan más trnasiciones
         #Esto debido a que no todos los automatas tienen transiciones cuando leen un epsilon
@@ -107,10 +91,8 @@ def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria,acept
         else:
             print("no existe la transicion ")
             return -1
-        print("termino la iteracion: ",iteracion)
-        print("*****************")
         iteracion=iteracion+1
-    print("Estado Final: ",estadoActual)
+    print("Estado al final de la ejecución: ",estadoActual)
     return estadoActual
 
 
@@ -181,14 +163,10 @@ def main():
                 print("La palabra NO es aceptado por el APD por stack vacio ") 
         
         else:
-            for x in pilaMemoria.items:
-                print(x)
             estadoFinal=validaEntrada("Ingrese estados Final (presione ENTER para continuar): ","estadofinal")
             while (estadoFinal!=""):
                 estadoFinal=estadoFinal.replace(' ','')
                 estadosFinales.append(estadoFinal)
-                print(len(estadosFinales))
-                print(estadosFinales)
                 estadoFinal=validaEntrada("Ingrese otro estados Final (presione ENTER para continuar): ","estadofinal")
             if(apd_estado_final(transiciones,estadoInicial,colaEntrada,estadoFinal,pilaMemoria)):
                 print("La palabra es aceptado por el APD por estado final")
@@ -207,6 +185,8 @@ def main():
         while(not colaEntrada.es_vacia()):
             colaEntrada.desencolar()
     print("Fin de la Ejecucion.....Que tenga buen día! :3")
-    input()
+    print()
+    print()
+    input("Presione ENTER para cerrar esta ventana")
             
 main()
