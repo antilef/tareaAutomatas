@@ -13,7 +13,7 @@ def transicion_esta_correcta(tran):
     return tran[0]!='(' or tran[2]!=',' or tran[4]!=',' or tran[6]!=')' or tran[7]!='=' or tran[8]!='(' or tran[10]!=',' or tran[len(tran)-1]!=')'
         
 def pide_transiciones(transiciones):
-    tran=input("Ingrese las transiciones (presiones ENTER para terminar,exit para terminar la ejecucion del programa):")
+    tran=input("Ingrese transición (presione ENTER para terminar,exit para terminar la ejecución del programa):")
     tran=tran.replace(' ','')
     while tran!="":
         while(transicion_esta_correcta(tran)):
@@ -25,7 +25,7 @@ def pide_transiciones(transiciones):
             tran=input("Error...Ingrese transición otra vez (o 'exit' para salir):")
             tran=tran.replace(' ','')
         transiciones.append(tran)
-        tran=input("Ingrese la transición (presiones ENTER para terminar,exit para terminar la ejecucion del programa):")
+        tran=input("Ingrese transición (presione ENTER para terminar, 'exit' para terminar la ejecución del programa):")
         tran=tran.replace(' ','')
     return False
         
@@ -157,7 +157,7 @@ def main():
     salir=False
     salir=pide_transiciones(transiciones)
     while(transiciones==[] and salir==False):
-        print("Error, no se han ingresado transiciones, por favor ingrese transiciones o ")
+        print("Error, no se han ingresado transiciones, por favor ingrese transiciones")
         salir=pide_transiciones(transiciones)
     while(salir==False):
         pilaMemoria.apilar("R")
