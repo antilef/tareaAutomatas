@@ -22,10 +22,10 @@ def pide_transiciones(transiciones):
                     tran=input("Ha elegido salir de el programa, ¿Esta usted seguro de salir? s(si) - n(no)")
                 if(tran=="S" or tran=="s"):
                     return True
-            tran=input("Error...Ingrese las transiciones otra vez (o 'exit' para salir):")
+            tran=input("Error...Ingrese transición otra vez (o 'exit' para salir):")
             tran=tran.replace(' ','')
         transiciones.append(tran)
-        tran=input("Ingrese las transiciones (presiones ENTER para terminar,exit para terminar la ejecucion del programa):")
+        tran=input("Ingrese la transición (presiones ENTER para terminar,exit para terminar la ejecucion del programa):")
         tran=tran.replace(' ','')
     return False
         
@@ -71,6 +71,17 @@ def apilado(pilaMemoria,tran):
 def calculaTransiciones(transiciones,estadoInicial,colaEntrada,pilaMemoria,acept):
     estadoActual= estadoInicial 
     while(not colaEntrada.es_vacia()):
+
+        #Estos prints permiten la visualización de las descripciones instantáneas
+
+        #print("(",estadoActual,end="")
+        #for x in colaEntrada.items:
+        #    print(x,end="")
+        #print(",",end="")
+        #for x in pilaMemoria.items:
+        #    print(x,end="")
+        #print(")")
+
         sim = colaEntrada.desencolar()
         variableStack=pilaMemoria.desapilar()
         tran=buscar_transicion(transiciones,estadoActual,sim,variableStack)
@@ -109,9 +120,9 @@ def apd_estado_final(transiciones,estadoInicial,colaEntrada,estado_final,pilaMem
     #Y por lo tanto: que la palabra no es aceptada por el APD
     es_final=False
     x=0
-    while(final!=estadosFinales[x] and x<len(estadosFinales)-1):
+    while(x<len(estadosFinales) and final!=estadosFinales[x]):
         x=x+1
-    if(x!=len(estadosFinales)):
+    if(x<len(estadosFinales)):
         es_final=True
     if(es_final and final!=-1):
         return True
@@ -133,7 +144,7 @@ def main():
     print("o tambien (q,b,R)=(w,AAR)   ")
     print()
     print("Donde cada elemento es:")
-    print("   1(ó q) :Estado actual (los nodos solo se pueden representar por un solo símbolo(letra, o número de un dígito por ejemplo: 'a', '1', 'q',etc))")
+    print("   1(ó q) :Estado actual (los estados solo se pueden representar por un solo símbolo(letra, o número de un dígito por ejemplo: 'a', '1', 'q',etc))")
     print("   a(ó b) :El símbolo leido en la palabra (puede que ser cualquier símbolo)")
     print("   R :Símbolo en la tapa del stack al leer la símnolo de la palabra")
     print("   2(ó w) :estado final al completarse la transición")
@@ -161,11 +172,11 @@ def main():
                 print("La palabra NO es aceptado por el APD por stack vacio ") 
         
         else:
-            estadoFinal=validaEntrada("Ingrese estados Final (presione ENTER para continuar): ","estadofinal")
+            estadoFinal=validaEntrada("Ingrese estados finales(presione ENTER para continuar): ","estadofinal")
             while (estadoFinal!=""):
                 estadoFinal=estadoFinal.replace(' ','')
                 estadosFinales.append(estadoFinal)
-                estadoFinal=validaEntrada("Ingrese otro estados Final (presione ENTER para continuar): ","estadofinal")
+                estadoFinal=validaEntrada("Ingrese otro estados finales (presione ENTER para continuar): ","estadofinal")
             if(apd_estado_final(transiciones,estadoInicial,colaEntrada,estadoFinal,pilaMemoria)):
                 print("La palabra es aceptado por el APD por estado final")
             else:
